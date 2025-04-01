@@ -1,6 +1,7 @@
 function inicio() {
     alert("Bienvenido al SuperVirtual");
     mostrar_productos(mercaderia)
+   
 }
 
 function mostrar_productos(mercaderia) {
@@ -9,8 +10,7 @@ function mostrar_productos(mercaderia) {
         mensaje += ` ${mercaderia.producto} - $${mercaderia.precio}\n`;
         
     });
-    alert(mensaje)
-    
+    prompt(mensaje)
     ;
 }
 
@@ -22,6 +22,5 @@ const mercaderia = [
     {producto: "Ananá", precio: 43},
     {producto: "Ciruela", precio: 9}
 ];
-
 
 inicio();
