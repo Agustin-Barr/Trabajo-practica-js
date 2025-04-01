@@ -22,5 +22,6 @@ const mercaderia = [
     {producto: "Ananá", precio: 43},
     {producto: "Ciruela", precio: 9}
 ];
-
+//falta funcion con un match case para la eleccion de los productos y la carga de los mismos.
+//los mismos van a irse agregando a una nueva array 
 inicio();
