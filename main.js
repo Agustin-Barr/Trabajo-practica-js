@@ -17,8 +17,9 @@ function iniciar_compra(){
     let eleccion = prompt("Ingrese el numero del producto ");
     
     while (eleccion < 0 || eleccion > len(mercaderia) ){
-        
-        let eleccion = prompt("Ingrese el numero del producto ");
+        alert("ERROR!. Ingrese un numero valido ")
+        let eleccion = prompt("Ingrese el numero del producto ")
+
 
 
     }
