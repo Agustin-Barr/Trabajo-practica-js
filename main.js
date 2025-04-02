@@ -13,7 +13,17 @@ function mostrar_productos(mercaderia) {
     prompt(mensaje)
     ;
 }
+function iniciar_compra(){
+    let eleccion = prompt("Ingrese el numero del producto ");
+    
+    while (eleccion < 0 || eleccion > len(mercaderia) ){
+        
+        let eleccion = prompt("Ingrese el numero del producto ");
 
+
+    }
+
+}
 const boton = document.getElementById("ver_lista");
 const mercaderia = [
     {producto: "Manzana", precio: 12},
