@@ -1,41 +1,47 @@
 function inicio() {
     alert("Bienvenido al SuperVirtual");
-    alert(mostrar_productos(mercaderia))
-   let carrito_de_compras = llenar_carrito(mercaderia)
+   let carrito_de_compras = llenar_carrito(mercaderia);
    alert (carrito_de_compras)
 }
-
+//funcion que me imprime la lista de productos disponibles 
 function mostrar_productos(mercaderia) {
     let mensaje = "Productos:\n";
-    mercaderia.forEach((mercaderia) => {
-        mensaje += ` ${mercaderia.nombre} - $${mercaderia.precio}\n`;
+    mercaderia.forEach((producto, index) => {
+        mensaje += ` ${index + 1}. ${producto.nombre} - $${producto.precio}\n`;
         
     });
    return mensaje
     
     
 }
-function eleccion_producto(mercaderia){
-    let eleccion = prompt("Ingrese el producto que desea comprar,ingrese -1 para finalizar ");
-    if (eleccion === "-1"){
-        return null;
-    }
-    while (mercaderia.some(producto =>producto.nombre === eleccion ) == false)  {
-        alert("ERROR!. Ingrese un producto valido ")
-        eleccion = prompt("Ingrese el  producto ")
+// funcion que  me deja elegir uno de los productos  y retorna el valor elegido para ser agregados al carrito
+function eleccion_producto(mercaderia) {
+    let eleccion = prompt(`${mostrar_productos(mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);
+
+    while(true){
         if (eleccion === "-1"){
             return null;
         }
-
+    let posicion_valida = false;
+    for (let i = 0;i<mercaderia.length;i++){
+        if (eleccion === String(i+1)){//le agrego +1 por la posicion de la lista que empieza en 0
+            posicion_valida = true;
+            return mercaderia[i].nombre
+        }
     }
-    return eleccion
+    alert("ERROR! Numero invalido. Por favor vuelva a intentar")
+    eleccion =   prompt("Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)");  
+    }
 }
+
+// Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
 function llenar_carrito(mercaderia){
-    let compra = eleccion_producto(mercaderia);
+    let producto = eleccion_producto(mercaderia);
     let carrito = []
-    while (compra !== null){
-        carrito.push(compra);
-        compra = eleccion_producto(mercaderia);
+    while (producto !== null){
+        carrito.push(producto);
+        alert(`${producto} fue agregado al carrito correctamente`);
+        producto = eleccion_producto(mercaderia);
     }
     
     return carrito
