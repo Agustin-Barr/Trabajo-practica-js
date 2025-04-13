@@ -1,7 +1,7 @@
 function inicio() {
     alert("Bienvenido al SuperVirtual");
    let carrito_de_compras = llenar_carrito(mercaderia);
-   alert (carrito_de_compras)
+   alert (mostrar_carrito(carrito_de_compras))
 }
 //funcion que me imprime la lista de productos disponibles 
 function mostrar_productos(mercaderia) {
@@ -26,7 +26,7 @@ function eleccion_producto(mercaderia) {
     for (let i = 0;i<mercaderia.length;i++){
         if (eleccion === String(i+1)){//le agrego +1 por la posicion de la lista que empieza en 0
             posicion_valida = true;
-            return mercaderia[i].nombre
+            return {nombre:mercaderia[i].nombre,precio : mercaderia[i].precio}
         }
     }
     alert("ERROR! Numero invalido. Por favor vuelva a intentar")
@@ -37,17 +37,25 @@ function eleccion_producto(mercaderia) {
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
 function llenar_carrito(mercaderia){
     let producto = eleccion_producto(mercaderia);
-    let carrito = []
+    let carrito = [];
     while (producto !== null){
         carrito.push(producto);
-        alert(`${producto} fue agregado al carrito correctamente`);
+        alert(`${producto.nombre} fue agregado al carrito correctamente`);
         producto = eleccion_producto(mercaderia);
     }
-    
     return carrito
-
-
 }
+    
+//funcion que me muestra los productos del carrito con su valor total a pagar
+function mostrar_carrito(carrito){
+    let total = 0;
+    carrito.forEach(producto=>{
+        alert(`${producto.nombre}- $${producto.precio}`);
+        total += producto.precio;
+    })
+    return total
+}
+
 ///Datos
 const mercaderia = [
     {
