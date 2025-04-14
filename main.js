@@ -30,7 +30,7 @@ function eleccion_producto(mercaderia) {
         }
     }
     alert("ERROR! Numero invalido. Por favor vuelva a intentar")
-    eleccion =   prompt("Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)");  
+    eleccion = prompt(`${mostrar_productos(mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);  
     }
 }
 
@@ -48,12 +48,22 @@ function llenar_carrito(mercaderia){
     
 //funcion que me muestra los productos del carrito con su valor total a pagar
 function mostrar_carrito(carrito){
+    if (carrito ==null|| carrito.length=== 0 ){//En caso de que este vacio el carrito devuelvo este texto
+        return "No realizo ninguna compra"}
+        
+    
+    
+    let mensaje = `Compras realizadas \n`
     let total = 0;
     carrito.forEach(producto=>{
-        alert(`${producto.nombre}- $${producto.precio}`);
+        mensaje += `${producto.nombre}- $${producto.precio}\n`;
         total += producto.precio;
     })
-    return total
+    
+    
+    let mensaje_final = `${mensaje} *El total de su compra es ${total}`;
+    return mensaje_final
+    
 }
 
 ///Datos
