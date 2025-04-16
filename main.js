@@ -4,7 +4,7 @@ function inicio() {
    alert (mostrar_carrito(carrito_de_compras))
 }
 //funcion que me imprime la lista de productos disponibles 
-function mostrar_productos(mercaderia) {
+function mostrar_productos(mercaderia="") {
     let mensaje = "Productos:\n";
     mercaderia.forEach((producto, index) => {
         mensaje += ` ${index + 1}. ${producto.nombre} - $${producto.precio}\n`;
@@ -15,7 +15,7 @@ function mostrar_productos(mercaderia) {
     
 }
 // funcion que  me deja elegir uno de los productos  y retorna el valor elegido para ser agregados al carrito
-function eleccion_producto(mercaderia) {
+function eleccion_producto(mercaderia="") {
     let eleccion = prompt(`${mostrar_productos(mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);
 
     while(true){
@@ -35,7 +35,7 @@ function eleccion_producto(mercaderia) {
 }
 
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
-function llenar_carrito(mercaderia){
+function llenar_carrito(mercaderia = ""){
     let producto = eleccion_producto(mercaderia);
     let carrito = [];
     while (producto !== null){
@@ -47,7 +47,7 @@ function llenar_carrito(mercaderia){
 }
     
 //funcion que me muestra los productos del carrito con su valor total a pagar
-function mostrar_carrito(carrito){
+function mostrar_carrito(carrito=""){
     if (carrito ==null|| carrito.length=== 0 ){//En caso de que este vacio el carrito devuelvo este texto
         return "No realizo ninguna compra"}
         
