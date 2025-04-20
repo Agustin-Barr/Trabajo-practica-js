@@ -1,7 +1,19 @@
+//Limpiar carrito de compras  al refrescar la pagina 
+document.addEventListener("DOMContentLoaded", () => {
+    sessionStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
+    });
+    
+
 function inicio() {
 
    mostrar_productos(Mercaderia);
    
+}
+//funcion que vacia el carrito de compras con mercaderia 
+function vaciar_carrito() {
+    sessionStorage.removeItem("carrito");//limpio el carrito de compras 
+    alert("El carrito ha sido vaciado.");//notifico al cliente que el carrito fue vaciado
+    mostrar_carrito();
 }
 //funcion que me imprime la lista de productos disponibles 
 function mostrar_productos(Mercaderia=[]) {
@@ -14,25 +26,32 @@ function mostrar_productos(Mercaderia=[]) {
         <div class="max-w-7xl mx-auto p-10 mt-10 bg-white shadow-2xl rounded-3xl">
             <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-12">🛍️ Catálogo de productos</h1>
             <ul class="flex flex-wrap justify-center gap-6">
-                ${Mercaderia.map(producto => `
+                ${Mercaderia.map((producto,index) => `
                     <li class="w-72 bg-gradient-to-tr from-blue-100 to-white p-6 rounded-3xl shadow-md hover:shadow-2xl transition-transform transform hover:-translate-y-1">
                         <h2 class="text-xl font-bold text-gray-800 mb-2 truncate">${producto.nombre}</h2>
                         <p class="text-lg text-gray-600 mb-4">💵 <span class="font-semibold text-green-600">$${producto.precio.toFixed(2)}</span></p>
-                        <button class="agregar_al_carrito bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-xl shadow hover:scale-105 transition-transform">
+                        <button class="agregar_al_carrito bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-xl shadow hover:scale-105 transition-transform"data-index="${index}">
                             🛒 Agregar al carrito
                         </button>
                     </li>
                 `).join("")}
             </ul>
+            
         </div>
     `;
     //agregar evento del boton agregar al carrito
     const boton_agregar = document.querySelectorAll(".agregar_al_carrito");
-    boton_agregar.forEach((boton, index) => {
+    boton_agregar.forEach((boton) => {
         boton.addEventListener("click", () => {
+            const index= parseInt(boton.dataset.index);//obtengo el index del boton que se presiono
             const producto = Mercaderia[index];//obtengo el producto correspondiente al boton que se presiono
-            //Ahora llamo a la funcion  para agregar el producto al carrito
-            agregar_al_carrito(producto);
+            //Antes de agregar al carrito verifico que el producto no sea undefined o null
+           if (producto && producto.nombre) {
+                agregar_al_carrito(producto);//agrego el producto al carrito
+            }
+            else {
+                alert("No se ha seleccionado un producto válido.");//si no hay producto valido muestro un mensaje de error
+            }
             
         });
     });
@@ -40,7 +59,11 @@ function mostrar_productos(Mercaderia=[]) {
 }
 
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
-function agregar_al_carrito(producto) {
+function agregar_al_carrito(producto ) {
+    if (!producto ||!producto.nombre){
+        alert("No se ha seleccionado un producto válido.");//si no hay producto valido muestro un mensaje de error
+        return;     
+    }
     let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
     carrito.push(producto);//agrego el producto al carrito
     sessionStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el session storage
@@ -72,6 +95,10 @@ function mostrar_carrito() {
                 `).join("")}
             </ul>
             <h2 class="text-xl font-bold text-gray-800 mt-8">Total: 💰 $${total.toFixed(2)}</h2>
+                <button onclick="vaciar_carrito()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl shadow hover:scale-105 transition-transform">
+                    🗑️ Vaciar Carrito
+                </button>
+            </div>
         </div>
     `;
     
