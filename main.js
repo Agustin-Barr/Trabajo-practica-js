@@ -1,47 +1,63 @@
 function inicio() {
-    alert("Bienvenido al SuperVirtual");
-   let carrito_de_compras = llenar_carrito(mercaderia);
-   alert (mostrar_carrito(carrito_de_compras))
+
+   mostrar_productos(Mercaderia);
+   
 }
 //funcion que me imprime la lista de productos disponibles 
-function mostrar_productos(mercaderia="") {
-    let mensaje = "Productos:\n";
-    mercaderia.forEach((producto, index) => {
-        mensaje += ` ${index + 1}. ${producto.nombre} - $${producto.precio}\n`;
-        
-    });
-   return mensaje
-    
-    
+function mostrar_productos(Mercaderia=[]) {
+    const contenedor = document.getElementById("contenedor");
+    if (!Mercaderia || Mercaderia.length === 0) {
+        contenedor.innerHTML = "<h1>No hay productos disponibles en el catálogo.</h1>";
+        return;
+    }
+    contenedor.innerHTML = `
+        <div class="max-w-7xl mx-auto p-10 mt-10 bg-white shadow-2xl rounded-3xl">
+            <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-12">🛍️ Catálogo de productos</h1>
+            <ul class="flex flex-wrap justify-center gap-6">
+                ${Mercaderia.map(producto => `
+                    <li class="w-72 bg-gradient-to-tr from-blue-100 to-white p-6 rounded-3xl shadow-md hover:shadow-2xl transition-transform transform hover:-translate-y-1">
+                        <h2 class="text-xl font-bold text-gray-800 mb-2 truncate">${producto.nombre}</h2>
+                        <p class="text-lg text-gray-600 mb-4">💵 <span class="font-semibold text-green-600">$${producto.precio.toFixed(2)}</span></p>
+                        <button class="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-xl shadow hover:scale-105 transition-transform">
+                            🛒 Agregar al carrito
+                        </button>
+                    </li>
+                `).join("")}
+            </ul>
+        </div>
+    `;
 }
+    
+    
+
 // funcion que  me deja elegir uno de los productos  y retorna el valor elegido para ser agregados al carrito
-function eleccion_producto(mercaderia="") {
-    let eleccion = prompt(`${mostrar_productos(mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);
+function eleccion_producto(Mercaderia="") {
+    let eleccion = prompt(`${mostrar_productos(Mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);
 
     while(true){
         if (eleccion === "-1"){
             return null;
         }
     let posicion_valida = false;
-    for (let i = 0;i<mercaderia.length;i++){
+    for (let i = 0;i<Mercaderia.length;i++){
         if (eleccion === String(i+1)){//le agrego +1 por la posicion de la lista que empieza en 0
             posicion_valida = true;
-            return {nombre:mercaderia[i].nombre,precio : mercaderia[i].precio}
+            return {nombre:Mercaderia[i].nombre,precio : Mercaderia[i].precio}
         }
     }
     alert("ERROR! Numero invalido. Por favor vuelva a intentar")
-    eleccion = prompt(`${mostrar_productos(mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);  
+    eleccion = prompt(`${mostrar_productos(Mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);  
     }
 }
 
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
-function llenar_carrito(mercaderia = ""){
-    let producto = eleccion_producto(mercaderia);
+function llenar_carrito(Mercaderia = ""){
+    let producto = eleccion_producto(Mercaderia);
     let carrito = [];
     while (producto !== null){
         carrito.push(producto);
         alert(`${producto.nombre} fue agregado al carrito correctamente`);
-        producto = eleccion_producto(mercaderia);
+        producto = eleccion_producto(Mercaderia);
     }
     return carrito
 }
@@ -65,30 +81,30 @@ function mostrar_carrito(carrito=""){
     return mensaje_final
     
 }
+class crear_mercaderia{
+    constructor(nombre="",precio=0,categoria="" ){
+        this.nombre = nombre;
+        this.precio=precio;
+        this.categoria=categoria;
+
+    }
+}
 
 ///Datos
-const mercaderia = [
-    {
-        nombre: "Manzana",
-        precio: 12
-    },
-    {
-        nombre: "Banana",
-        precio: 25
-    },
-    {
-        nombre: "Pera",
-        precio: 7
-    },
-    {
-        nombre: "Ananá",
-        precio: 43
-    },
-    {
-        nombre: "Ciruela",
-        precio: 9
-    }
+const Mercaderia = [
+    new crear_mercaderia("Leche Serenisima", 100, "Lacteos"),
+    new crear_mercaderia("Pan Bimbo", 50, "Almacen"),
+    new crear_mercaderia("Oreo", 500, "Almacen"),
+    new crear_mercaderia("Tomate", 200, "Verduleria"),
+    new crear_mercaderia("Manzana", 150, "Verduleria"),
+    new crear_mercaderia("Cafe Bonafide", 80, "Almacen"),
+    new crear_mercaderia("Jugo Citric", 120, "Almacen"),
+    new crear_mercaderia("Coca Cola", 130, "Almacen"),
+    new crear_mercaderia("Servilleta ", 150, "Almacen"),
+    
 ];
+localStorage.setItem("productos", JSON.stringify(Mercaderia));
+
 //falta funcion con un match case para la eleccion de los productos y la carga de los mismos.
 //los mismos van a irse agregando a una nueva array 
 inicio()
