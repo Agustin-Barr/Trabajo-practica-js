@@ -5,9 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
 function inicio() {
-
-   mostrar_productos(Mercaderia);
-   
+mostrar_productos(Mercaderia);  
 }
 //funcion que vacia el carrito de compras con mercaderia 
 function vaciar_carrito() {
@@ -130,5 +128,5 @@ const Mercaderia = [
 localStorage.setItem("productos", JSON.stringify(Mercaderia));
 
 //falta funcion con un match case para la eleccion de los productos y la carga de los mismos.
-//los mismos van a irse agregando a una nueva array 
+
 inicio()
