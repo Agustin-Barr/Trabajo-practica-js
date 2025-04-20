@@ -18,7 +18,7 @@ function mostrar_productos(Mercaderia=[]) {
                     <li class="w-72 bg-gradient-to-tr from-blue-100 to-white p-6 rounded-3xl shadow-md hover:shadow-2xl transition-transform transform hover:-translate-y-1">
                         <h2 class="text-xl font-bold text-gray-800 mb-2 truncate">${producto.nombre}</h2>
                         <p class="text-lg text-gray-600 mb-4">💵 <span class="font-semibold text-green-600">$${producto.precio.toFixed(2)}</span></p>
-                        <button class="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-xl shadow hover:scale-105 transition-transform">
+                        <button class="agregar_al_carrito bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-xl shadow hover:scale-105 transition-transform">
                             🛒 Agregar al carrito
                         </button>
                     </li>
@@ -26,61 +26,58 @@ function mostrar_productos(Mercaderia=[]) {
             </ul>
         </div>
     `;
-}
-    
-    
+    //agregar evento del boton agregar al carrito
+    const boton_agregar = document.querySelectorAll(".agregar_al_carrito");
+    boton_agregar.forEach((boton, index) => {
+        boton.addEventListener("click", () => {
+            const producto = Mercaderia[index];//obtengo el producto correspondiente al boton que se presiono
+            //Ahora llamo a la funcion  para agregar el producto al carrito
+            agregar_al_carrito(producto);
+            
+        });
+    });
 
-// funcion que  me deja elegir uno de los productos  y retorna el valor elegido para ser agregados al carrito
-function eleccion_producto(Mercaderia="") {
-    let eleccion = prompt(`${mostrar_productos(Mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);
-
-    while(true){
-        if (eleccion === "-1"){
-            return null;
-        }
-    let posicion_valida = false;
-    for (let i = 0;i<Mercaderia.length;i++){
-        if (eleccion === String(i+1)){//le agrego +1 por la posicion de la lista que empieza en 0
-            posicion_valida = true;
-            return {nombre:Mercaderia[i].nombre,precio : Mercaderia[i].precio}
-        }
-    }
-    alert("ERROR! Numero invalido. Por favor vuelva a intentar")
-    eleccion = prompt(`${mostrar_productos(Mercaderia)}Ingrese el numero de producto que desee agregar al carrito ( ingrese -1 para finalizar)`);  
-    }
 }
 
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
-function llenar_carrito(Mercaderia = ""){
-    let producto = eleccion_producto(Mercaderia);
-    let carrito = [];
-    while (producto !== null){
-        carrito.push(producto);
-        alert(`${producto.nombre} fue agregado al carrito correctamente`);
-        producto = eleccion_producto(Mercaderia);
-    }
-    return carrito
+function agregar_al_carrito(producto) {
+    let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
+    carrito.push(producto);//agrego el producto al carrito
+    sessionStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el session storage
+    alert(`${producto.nombre} ha sido agregado al carrito`);//muestro  al cliente que su producto se agrego correctamente
+    mostrar_carrito();//llamo a la funcion que me muestra el carrito de compras
+    
+    
+    
 }
     
 //funcion que me muestra los productos del carrito con su valor total a pagar
-function mostrar_carrito(carrito=""){
-    if (carrito ==null|| carrito.length=== 0 ){//En caso de que este vacio el carrito devuelvo este texto
-        return "No realizo ninguna compra"}
-        
-    
-    
-    let mensaje = `Compras realizadas \n`
-    let total = 0;
-    carrito.forEach(producto=>{
-        mensaje += `${producto.nombre}- $${producto.precio}\n`;
-        total += producto.precio;
-    })
-    
-    
-    let mensaje_final = `${mensaje} *El total de su compra es ${total}`;
-    return mensaje_final
+function mostrar_carrito() {
+    const carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
+    const contenedor = document.getElementById("contenedor_carrito");
+    if (!carrito || carrito.length === 0) {
+        contenedor.innerHTML = "<h1>No hay productos en el carrito.</h1>";
+        return;
+    }
+    const total = carrito.reduce((acc, producto) => acc + producto.precio, 0);
+    contenedor.innerHTML = `
+        <div class="max-w-7xl mx-auto p-10 mt-10 bg-white shadow-2xl rounded-3xl">
+            <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-12">🛒 Carrito de compras</h1>
+            <ul class="flex flex-wrap justify-center gap-6">
+                ${carrito.map(producto => `
+                    <li class="w-72 bg-gradient-to-tr from-blue-100 to-white p-6 rounded-3xl shadow-md hover:shadow-2xl transition-transform transform hover:-translate-y-1">
+                        <h2 class="text-xl font-bold text-gray-800 mb-2 truncate">${producto.nombre}</h2>
+                        <p class="text-lg text-gray-600 mb-4">💵 <span class="font-semibold text-green-600">$${producto.precio.toFixed(2)}</span></p>
+                    </li>
+                `).join("")}
+            </ul>
+            <h2 class="text-xl font-bold text-gray-800 mt-8">Total: 💰 $${total.toFixed(2)}</h2>
+        </div>
+    `;
     
 }
+    
+
 class crear_mercaderia{
     constructor(nombre="",precio=0,categoria="" ){
         this.nombre = nombre;
