@@ -5,7 +5,25 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
 function inicio() {
-mostrar_productos(Mercaderia);  
+separar_por_categoria(categoria);//llamo a la funcion que me muestra los productos disponibles al cargar la pagina  
+}
+//Funcion para separar los productos por categoria 
+function separar_por_categoria(categoria){
+    let productos_filtrados;
+    switch (categoria) {
+        case "Lacteos":
+            productos_filtrados = Mercaderia.filter(producto => producto.categoria === "Lacteos");
+            break;
+        case "Almacen":
+            productos_filtrados = Mercaderia.filter(producto => producto.categoria === "Almacen");
+            break;
+        case "Verduleria":
+            productos_filtrados = Mercaderia.filter(producto => producto.categoria === "Verduleria");
+            break;
+        default:
+            productos_filtrados = Mercaderia;
+    }
+    mostrar_productos(productos_filtrados);//llamo a la funcion que me muestra los productos de la categoria seleccionada
 }
 //funcion que vacia el carrito de compras con mercaderia 
 function vaciar_carrito() {
