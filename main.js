@@ -84,7 +84,6 @@ function agregar_al_carrito(producto ) {
     carrito.push(producto);//agrego el producto al carrito
     sessionStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el session storage
     alert(`${producto.nombre} ha sido agregado al carrito`);//muestro  al cliente que su producto se agrego correctamente
-    mostrar_carrito();//llamo a la funcion que me muestra el carrito de compras
     
     
     
