@@ -1,24 +1,43 @@
+
 //Limpiar carrito de compras  al refrescar la pagina 
 document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
     });
-    
-
-function inicio() {
-separar_por_categoria(categoria);//llamo a la funcion que me muestra los productos disponibles al cargar la pagina  
-}
+const btnLacteos = document.getElementById("btnLacteos");//boton de lacteos
+const btnAlmacen = document.getElementById("btnAlmacen");//boton de almacen         
+const btnVerduleria = document.getElementById("btnVerduleria");//boton de verduleria
+const btnCarrito = document.getElementById("btnCarrito");//boton de carrito
+const btnVaciarCarrito = document.getElementById("btnVaciarCarrito");//boton de vaciar carrito
+btnLacteos.addEventListener("click", () => {
+    separar_por_categoria("Lacteos");//llamo a la funcion que me muestra los productos de la categoria Lacteos
+});
+btnAlmacen.addEventListener("click", () => {
+    separar_por_categoria("Almacen");//llamo a la funcion que me muestra los productos de la categoria Almacen
+});
+btnVerduleria.addEventListener("click", () => {
+    separar_por_categoria("Verduleria");//llamo a la funcion que me muestra los productos de la categoria Verduleria
+});
+btnCarrito.addEventListener("click", () => {    
+    mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
+});
+btnVaciarCarrito.addEventListener("click", () => {       
+    vaciar_carrito();//llamo a la funcion que me vacia el carrito de compras
+});                        
 //Funcion para separar los productos por categoria 
+function filtrado_categoria(categoria = ""){
+    return Mercaderia.filter(producto => producto.categoria === categoria);//filtro los productos por categoria
+}
 function separar_por_categoria(categoria){
     let productos_filtrados;
     switch (categoria) {
         case "Lacteos":
-            productos_filtrados = Mercaderia.filter(producto => producto.categoria === "Lacteos");
+            productos_filtrados = filtrado_categoria("Lacteos");//filtro los productos por categoria Lacteos
             break;
         case "Almacen":
-            productos_filtrados = Mercaderia.filter(producto => producto.categoria === "Almacen");
+            productos_filtrados = filtrado_categoria("Almacen");//filtro los productos por categoria Almacen
             break;
         case "Verduleria":
-            productos_filtrados = Mercaderia.filter(producto => producto.categoria === "Verduleria");
+            productos_filtrados = filtrado_categoria("Verduleria");//filtro los productos por categoria Verduleria
             break;
         default:
             productos_filtrados = Mercaderia;
@@ -51,8 +70,7 @@ function mostrar_productos(Mercaderia=[]) {
                         </button>
                     </li>
                 `).join("")}
-            </ul>
-            
+            </ul> 
         </div>
     `;
     //agregar evento del boton agregar al carrito
@@ -71,7 +89,6 @@ function mostrar_productos(Mercaderia=[]) {
             
         });
     });
-
 }
 
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
@@ -83,12 +100,26 @@ function agregar_al_carrito(producto ) {
     let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
     carrito.push(producto);//agrego el producto al carrito
     sessionStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el session storage
-    alert(`${producto.nombre} ha sido agregado al carrito`);//muestro  al cliente que su producto se agrego correctamente
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Signed in successfully"
+      });
     
     
     
 }
-    
+ addEventListener   
 //funcion que me muestra los productos del carrito con su valor total a pagar
 function mostrar_carrito() {
     const carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
@@ -115,11 +146,8 @@ function mostrar_carrito() {
                 </button>
             </div>
         </div>
-    `;
-    
+    `;   
 }
-    
-
 class crear_mercaderia{
     constructor(nombre="",precio=0,categoria="" ){
         this.nombre = nombre;
@@ -144,6 +172,3 @@ const Mercaderia = [
 ];
 localStorage.setItem("productos", JSON.stringify(Mercaderia));
 
-//falta funcion con un match case para la eleccion de los productos y la carga de los mismos.
-
-inicio()

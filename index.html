@@ -5,40 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title >SuperVirtual </title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 <body>
     <h1 style="text-align:left;font-family:Cursive;font-size:48px;font-style:italic;font-weight:normal;font-variant:small-caps;letter-spacing:2px;text-indent:6px;color:#6600CC;">SuperVirtual</h1>
     <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-12"> SECTORES </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            <button onclick="separar_por_categoria('Almacen')" class="bg-white shadow-md rounded-lg p-6 hover:bg-blue-100 transition">
+            <button  class="bg-white shadow-md rounded-lg p-6 hover:bg-blue-100 transition "id="btnAlmacen">
                 <h3 class="text-xl font-bold mb-2">Almacen</h3>
                 <p class="text-gray-700">Presiona aqui para acceder a la seccion de Almacen.</p>
             </button>
-            <button onclick="separar_por_categoria('Verduleria')" class="bg-white shadow-md rounded-lg p-6 hover:bg-green-100 transition">
+            <button " class="bg-white shadow-md rounded-lg p-6 hover:bg-green-100 transition" id ="btnVerduleria">
                 <h3 class="text-xl font-bold mb-2">Verduleria</h3>
                 <p class="text-gray-700">Presiona aqui para acceder a la seccion de Verduleria.</p>
             </button>
-            <button onclick="separar_por_categoria('Lacteos')" class="bg-white shadow-md rounded-lg p-6 hover:bg-yellow-100 transition">
+            <button class="bg-white shadow-md rounded-lg p-6 hover:bg-yellow-100 transition" id ="btnLacteos">
                 <h3 class="text-xl font-bold mb-2">Lacteos</h3>
                 <p class="text-gray-700">Presiona aqui para acceder a la seccion de Lacteos.</p>
             </button>
-            <button onclick="separar_por_categoria('Todos')" class="bg-white shadow-md rounded-lg p-6 hover:bg-gray-100 transition">
+            <button class="bg-white shadow-md rounded-lg p-6 hover:bg-gray-100 transition" id ="btnTodos">
                 <h3 class="text-xl font-bold mb-2">Todos</h3>
                 <p class="text-gray-700">Presiona aqui para ver todos los productos de la tienda.</p>
             </button>
         </div>
 
 
- <div id ="contenedor"></div>
- 
- <div id="contenedor_carrito"></div>
+    <div id ="contenedor"></div>
+    
+    <div id="contenedor_carrito"></div>
 
- 
- <button onclick="mostrar_carrito()" 
-         class="fixed bottom-10 right-10 bg-green-500 text-white py-3 px-6 rounded-full shadow-lg hover:bg-green-600 transition">
-     🛒 Ver Carrito
- </button>
-<script defer src="main.js"></script> 
+    
+    <button  id="btnCarrito"
+            class="fixed bottom-10 right-10 bg-green-500 text-white py-3 px-6 rounded-full shadow-lg hover:bg-green-600 transition">
+        🛒 Ver Carrito
+     
+    </button>
+<script type="module" src="js/main.js"></script> 
 </body>
 </html>
