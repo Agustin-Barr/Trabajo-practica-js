@@ -141,7 +141,7 @@ function agregar_al_carrito(producto ) {
     });
     Toast.fire({
         icon: "success",
-        title: "Signed in successfully"
+        title: "Agregado al carrito"
     });   
 }
 //funcion que me muestra los productos del carrito con su valor total a pagar
