@@ -19,7 +19,8 @@ btnVerduleria.addEventListener("click", () => {
 btnTodos.addEventListener("click", () => {
     mostrar_productos(Mercaderia);//llamo a la funcion que me muestra todos los productos 
 });  
-btnCarrito.addEventListener("click", () => {    
+btnCarrito.addEventListener("click", () => {
+
     mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
 });
 //Funcion para separar los productos por categoria 
@@ -74,6 +75,7 @@ function vaciar_carrito() {
             });
         }
       });
+      contenedor.scrollIntoView({ behavior: "smooth", block: "start" });//hago scroll al contenedor del carrito de compras
        
     
 }
@@ -115,6 +117,7 @@ function mostrar_productos(Mercaderia=[]) {
             }            
         });
     });
+    
 }
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
 function agregar_al_carrito(producto ) {
@@ -168,6 +171,7 @@ function mostrar_carrito() {
         </div>
         </div>
         `
+        contenedor_carrito.scrollIntoView({ behavior: "smooth", block: "end" });//hago scroll al contenedor del carrito de compras
         //agregar evento del boton vaciar carrito
         const btnVaciarCarrito = document.getElementById("vaciar_carrito");//boton de vaciar carrito
         
