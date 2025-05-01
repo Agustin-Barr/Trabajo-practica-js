@@ -45,9 +45,37 @@ function separar_por_categoria(categoria = ""){
                 }   
 //funcion que vacia el carrito de compras con mercaderia 
 function vaciar_carrito() {
-   localStorage.removeItem("carrito");//limpio el carrito de compras 
-    alert("El carrito ha sido vaciado.");//notifico al cliente que el carrito fue vaciado
-    mostrar_carrito();
+    Swal.fire({
+        title: "Desea vaciar el carrito de compras?",
+        text: "Recuerde que no podra recuperar los productos eliminados",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, deseo vaciar mi carrito!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("carrito");//limpio el carrito de compras
+          mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
+          Swal.fire({
+            
+            title: "Vacio!",
+            text: "Su carrito de compras ha sido vaciado correctamente.",
+            icon: "success"
+          });
+        }
+        else {
+            mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
+            Swal.fire({
+                
+                title: "Cancelado",
+                text: "Su carrito de compras no ha sido eliminado.",
+                icon: "error",
+            });
+        }
+      });
+       
+    
 }
 //funcion que me imprime la lista de productos disponibles 
 function mostrar_productos(Mercaderia=[]) {
@@ -140,12 +168,14 @@ function mostrar_carrito() {
         </div>
         </div>
         `
+        //agregar evento del boton vaciar carrito
         const btnVaciarCarrito = document.getElementById("vaciar_carrito");//boton de vaciar carrito
+        
         btnVaciarCarrito.addEventListener("click", () => {
             vaciar_carrito();//llamo a la funcion que me vacia el carrito de compras
         });};
         
-        class crear_mercaderia{
+class crear_mercaderia{
         constructor(nombre="",precio=0,categoria="" ){
             this.nombre = nombre;
             this.precio=precio;
@@ -153,8 +183,8 @@ function mostrar_carrito() {
     
         }
     } 
-    ///Datos
-    const Mercaderia = [
+///Datos
+const Mercaderia = [
         new crear_mercaderia("Leche Serenisima", 100, "Lacteos"),
         new crear_mercaderia("Pan Bimbo", 50, "Almacen"),
         new crear_mercaderia("Oreo", 500, "Almacen"),
