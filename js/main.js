@@ -200,3 +200,9 @@ const Mercaderia = [
         new crear_mercaderia("Servilleta ", 150, "Almacen"),        
     ];
     localStorage.setItem("productos", JSON.stringify(Mercaderia));
+    //cosas  que agregar al proyecto
+    // sistema de login y registro antes de iniciar la compra
+    // eliminar productos del carrito de compras de a uno
+    // contabilizar los productos  repetidos dentro del carrito de compras
+    //contabilizador dinamico del carrito de compras en el ehader
+    
