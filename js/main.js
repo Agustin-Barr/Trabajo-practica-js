@@ -1,3 +1,4 @@
+import { alerta_agregado,alerta_eliminado } from "./helper/utils.js";
 //Limpiar carrito de compras  al refrescar la pagina 
 document.addEventListener("DOMContentLoaded", () => {
    localStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
@@ -45,37 +46,13 @@ function separar_por_categoria(categoria = ""){
                     mostrar_productos(productos_filtrados);//llamo a la funcion que me muestra los productos de la categoria seleccionada
                 }   
 //funcion que vacia el carrito de compras con mercaderia 
-function vaciar_carrito() {
-    Swal.fire({
-        title: "Desea vaciar el carrito de compras?",
-        text: "Recuerde que no podra recuperar los productos eliminados",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, deseo vaciar mi carrito!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          localStorage.removeItem("carrito");//limpio el carrito de compras
-          mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
-          Swal.fire({
-            
-            title: "Vacio!",
-            text: "Su carrito de compras ha sido vaciado correctamente.",
-            icon: "success"
-          });
-        }
-        else {
-            mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
-            Swal.fire({
-                
-                title: "Cancelado",
-                text: "Su carrito de compras no ha sido eliminado.",
-                icon: "error",
-            });
-        }
-      });
-      contenedor.scrollIntoView({ behavior: "smooth", block: "start" });//hago scroll al contenedor del carrito de compras
+async function vaciar_carrito() {
+    const espera_confirmacion= await alerta_eliminado();//llamo a la funcion que me muestra el mensaje de confirmacion
+    if (espera_confirmacion) {//si el usuario confirma que desea eliminar el carrito de compras
+        localStorage.removeItem("carrito");//elimino el carrito de compras del local storage 
+        }   
+    mostrar_carrito();
+    document.head.scrollIntoView({ behavior: "smooth", block: "start" });
        
     
 }
@@ -128,21 +105,7 @@ function agregar_al_carrito(producto ) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
     carrito.push(producto);//agrego el producto al carrito
    localStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el local storage
-    const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
-    Toast.fire({
-        icon: "success",
-        title: "Agregado al carrito"
-    });   
+    alerta_agregado();//muestra un mensaje de exito al agregar el producto al carrito   
 }
 //funcion que me muestra los productos del carrito con su valor total a pagar
 function mostrar_carrito() {
