@@ -2,6 +2,7 @@ import { alerta_agregado,alerta_eliminado } from "./helper/utils.js";
 //Limpiar carrito de compras  al refrescar la pagina 
 document.addEventListener("DOMContentLoaded", () => {
    localStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
+   actualizar_carrito();//actualizo el carrito de compras al cargar la pagina
 });
 const btnLacteos = document.getElementById("btnLacteos");//boton de lacteos
 const btnAlmacen = document.getElementById("btnAlmacen");//boton de almacen         
@@ -21,7 +22,6 @@ btnTodos.addEventListener("click", () => {
     mostrar_productos(Mercaderia);//llamo a la funcion que me muestra todos los productos 
 });  
 btnCarrito.addEventListener("click", () => {
-
     mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
 });
 //Funcion para separar los productos por categoria 
@@ -53,6 +53,7 @@ async function vaciar_carrito() {
         }   
     mostrar_carrito();
     document.head.scrollIntoView({ behavior: "smooth", block: "start" });
+    actualizar_carrito();
        
     
 }
@@ -106,6 +107,7 @@ function agregar_al_carrito(producto ) {
     carrito.push(producto);//agrego el producto al carrito
    localStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el local storage
     alerta_agregado();//muestra un mensaje de exito al agregar el producto al carrito   
+    actualizar_carrito();
 }
 //funcion que me muestra los productos del carrito con su valor total a pagar
 function mostrar_carrito() {
@@ -118,7 +120,7 @@ function mostrar_carrito() {
     const total = carrito.reduce((acc, producto) => acc + producto.precio, 0);
     contenedor.innerHTML = `
     <div class="max-w-7xl mx-auto p-10 mt-10 bg-white shadow-2xl rounded-3xl">
-    <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-12">🛒 Carrito de compras</h1>
+    <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-12">🛒 Carrito de compras </h1>
     <ul class="flex flex-wrap justify-center gap-6">
     ${carrito.map(producto => `
         <li class="w-72 bg-gradient-to-tr from-blue-100 to-white p-6 rounded-3xl shadow-md hover:shadow-2xl transition-transform transform hover:-translate-y-1">
@@ -141,6 +143,9 @@ function mostrar_carrito() {
         btnVaciarCarrito.addEventListener("click", () => {
             vaciar_carrito();//llamo a la funcion que me vacia el carrito de compras
         });};
+function actualizar_carrito() {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    btnCarrito.textContent = `Ver carrito (${carrito.length})`;}
         
 class crear_mercaderia{
         constructor(nombre="",precio=0,categoria="" ){
@@ -167,5 +172,4 @@ const Mercaderia = [
     // sistema de login y registro antes de iniciar la compra
     // eliminar productos del carrito de compras de a uno
     // contabilizar los productos  repetidos dentro del carrito de compras
-    //contabilizador dinamico del carrito de compras en el ehader
-    
+    // pasar los productos a un json y cargarlo desde el json

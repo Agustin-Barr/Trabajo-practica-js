@@ -1,4 +1,4 @@
-export function alerta_agregado(icon="success", title="agregado al carrito") {//funcion para avisar que se agrego el producto al carrito
+export function alerta_agregado(icon="success", title="Agregado al carrito") {//funcion para avisar que se agrego el producto al carrito
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
