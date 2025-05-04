@@ -1,8 +1,10 @@
 import { alerta_agregado,alerta_eliminado } from "./helper/utils.js";
+import { usuarioLogueado } from "./auth/iniciosesion.js";
 //Limpiar carrito de compras  al refrescar la pagina 
 document.addEventListener("DOMContentLoaded", () => {
    localStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
    actualizar_carrito();//actualizo el carrito de compras al cargar la pagina
+   
 });
 const btnLacteos = document.getElementById("btnLacteos");//boton de lacteos
 const btnAlmacen = document.getElementById("btnAlmacen");//boton de almacen         
@@ -59,6 +61,10 @@ async function vaciar_carrito() {
 }
 //funcion que me imprime la lista de productos disponibles 
 function mostrar_productos(Mercaderia=[]) {
+    if (!usuarioLogueado()) {//si el usuario no esta logueado le muestro un mensaje de error
+        alert("Debes iniciar sesion para comenzar a comprar");//si no hay producto valido muestro un mensaje de error
+        return;
+    }
     const contenedor = document.getElementById("contenedor");
     if (!Mercaderia || Mercaderia.length === 0) {
         contenedor.innerHTML = "<h1>No hay productos disponibles en el catálogo.</h1>";
@@ -80,6 +86,7 @@ function mostrar_productos(Mercaderia=[]) {
         </ul> 
         </div>
         `;
+        
         //agregar evento del boton agregar al carrito
         const boton_agregar = document.querySelectorAll(".agregar_al_carrito");
         boton_agregar.forEach((boton) => {
@@ -99,6 +106,10 @@ function mostrar_productos(Mercaderia=[]) {
 }
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
 function agregar_al_carrito(producto ) {
+    if (!usuarioLogueado()) {//si el usuario no esta logueado le muestro un mensaje de error
+        alert("Debes iniciar sesion para agregar productos al carrito de compras");//si no hay producto valido muestro un mensaje de error
+        return;
+    }
     if (!producto ||!producto.nombre){
         alert("No se ha seleccionado un producto válido.");//si no hay producto valido muestro un mensaje de error
         return;     
@@ -169,7 +180,6 @@ const Mercaderia = [
     ];
     localStorage.setItem("productos", JSON.stringify(Mercaderia));
     //cosas  que agregar al proyecto
-    // sistema de login y registro antes de iniciar la compra
     // eliminar productos del carrito de compras de a uno
     // contabilizar los productos  repetidos dentro del carrito de compras
     // pasar los productos a un json y cargarlo desde el json
