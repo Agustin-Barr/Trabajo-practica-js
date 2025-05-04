@@ -10,7 +10,35 @@
 
 </head>
 <body>
-    <h1 style="text-align:left;font-family:Cursive;font-size:48px;font-style:italic;font-weight:normal;font-variant:small-caps;letter-spacing:2px;text-indent:6px;color:#6600CC;">SuperVirtual</h1>
+    <div class="flex justify-between items-center px-6 mt-4">
+        <h1 class="text-4xl font-semibold italic text-purple-800" style="font-family: Cursive; font-variant: small-caps; letter-spacing: 2px;">
+          SuperVirtual
+        </h1>
+        <button id="btnRegistro"
+                class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
+          Registrarse
+        </button>
+      </div>
+    <div id = "ModalRegistro" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-2xl font-bold mb-4">Iniciar Sesión</h2>
+            <form id="formLogin">
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700">Usuario:</label>
+                    <input type="text" id="username" class="border border-gray-300 rounded w-full px-3 py-2" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700">Contraseña:</label>
+                    <input type="password" id="password" class="border border-gray-300 rounded w-full px-3 py-2" required>
+                </div>
+                <button type="submit" id ="btnLogin"
+                        class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">Iniciar Sesión</button>
+            </form>
+            <button id ="btnCerrarModalRegistro"
+                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 transition">&times;</button>
+        </div>|
+
+    </div>
     <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-12"> SECTORES </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             <button  class="bg-white shadow-md rounded-lg p-6 hover:bg-blue-100 transition "id="btnAlmacen">
@@ -43,5 +71,6 @@
      
     </button>
 <script type="module" src="js/main.js"></script>
+<script src="js\login.js"></script>
 </body>
 </html>
