@@ -1,5 +1,6 @@
 import { alerta_efimera,alerta_eliminado,alerta_general } from "./helper/utils.js";
 import { usuarioLogueado } from "./auth/iniciosesion.js";
+import "./auth/registro.js";
 //Limpiar carrito de compras  al refrescar la pagina 
 document.addEventListener("DOMContentLoaded", () => {
    localStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
@@ -58,13 +59,13 @@ async function vaciar_carrito() {
 }
 //funcion que me imprime la lista de productos disponibles 
 function mostrar_productos(Mercaderia=[]) {
-    if (!usuarioLogueado()) {//si el usuario no esta logueado le muestro un mensaje de error
-        alerta_general("Error","Debes iniciar sesion para ver el catalogo de productos","error");
-        return;
-    }
     const contenedor = document.getElementById("contenedor");
     if (!Mercaderia || Mercaderia.length === 0) {
         contenedor.innerHTML = "<h1>No hay productos disponibles en el catálogo.</h1>";
+        return;
+    }
+    if (!usuarioLogueado()) {//si el usuario no esta logueado le muestro un mensaje de error
+        alerta_general("Error","Debes iniciar sesion para ver el catalogo de productos","error");
         return;
     }
     contenedor.innerHTML = `
