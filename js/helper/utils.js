@@ -1,4 +1,4 @@
-export function alerta_agregado(icon="success", title="Agregado al carrito") {//funcion para avisar que se agrego el producto al carrito
+export function alerta_efimera(title =" ", icon =" success") {//funcion para avisar que se agrego el producto al carrito
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -34,14 +34,26 @@ export async function alerta_eliminado() {//funcion para avisar que se elimino e
           });
           return true;
         }else {
-        await Swal.fire({
-                
+        await Swal.fire({               
                 title: "Cancelado",
                 text: "Su carrito de compras no ha sido eliminado.",
                 icon: "error",
             });
-            
         }
         return false;
       };
+export function alerta_general(title = "",text = "", icon = "error") {//funcion general de alerta 
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon
+      });
+}
+export function alerta_sesion(title = " ", icon = "success") {//funcion para avisar que se inicio sesion
+    Swal.fire({
+        title: title,
+        icon: icon,
+        draggable: true
+      });
+}
     

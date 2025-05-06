@@ -1,3 +1,4 @@
+import { alerta_general,alerta_sesion,alerta_efimera } from "../helper/utils.js";
 document.addEventListener("DOMContentLoaded", () => {
     const btnAbrirInicioSesion = document.getElementById("btnInicioSesion");
     if (usuarioLogueado()) {
@@ -8,18 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("btnInicioSesion").disabled = true;
         document.getElementById("btnRegistro").disabled = true;
     }else {
-        alert("No hay usuario logueado");
+        alerta_efimera("No hay usuario logueado", "info");
         document.getElementById("btnInicioSesion").innerHTML = "Iniciar Sesion";
         document.getElementById("btnInicioSesion").classList.remove("bg-green-500");
         document.getElementById("btnInicioSesion").classList.add("bg-blue-500");
         document.getElementById("btnInicioSesion").disabled = false;
         document.getElementById("btnRegistro").disabled = false;    
     }
-    
     btnAbrirInicioSesion.addEventListener("click", () => {
         document.getElementById("ModalInicioSesion").classList.remove("hidden");    
         document.getElementById("ModalInicioSesion").classList.add("flex");});
-    document.getElementById("btnCerrarModal").addEventListener("click", () => {
+        document.getElementById("btnCerrarModal").addEventListener("click", () => {
             document.getElementById("ModalInicioSesion").classList.remove("flex");
             document.getElementById("ModalInicioSesion").classList.add("hidden");
         });
@@ -32,35 +32,31 @@ document.addEventListener("DOMContentLoaded", () => {
             //busco el usuario en el local storage
             const usuario = usuarios.find((user) => user.NombreUsuario === NombreUsuario && user.Password === Password);
             if (!usuario) {
-                alert("Usuario o contraseña incorrectos");
+                alerta_general("Error", "Usuario o contraseña incorrectos", "error");
                 return;
             }
             //si el usuario existe guardo el nombre de usuario en el local storage
             localStorage.setItem("usuario", usuario.NombreUsuario);
-
-            alert("Inicio de sesion exitoso");
+            alerta_sesion("Sesion iniciada", "success");
             document.getElementById("ModalInicioSesion").classList.remove("flex");
             document.getElementById("ModalInicioSesion").classList.add("hidden");
             document.getElementById("formLogin").reset();//reseteo el formulario de inicio de sesion
-
         });
         //cerrar sesion
-    document.getElementById("btnCerrarSesion").addEventListener("click", () => {
-    if (!usuarioLogueado()) {
-        alert("No hay usuario logueado");
-        return;
-    }
-    localStorage.removeItem("usuario");
-    document.getElementById("btnInicioSesion").innerHTML = "Iniciar Sesion";
-    document.getElementById("btnInicioSesion").classList.remove("bg-green-500");
-    document.getElementById("btnInicioSesion").classList.add("bg-blue-500");
-    document.getElementById("btnInicioSesion").disabled = false;
-    document.getElementById("btnRegistro").disabled = false;
-    alert("Sesion cerrada con exito");
-});
+        document.getElementById("btnCerrarSesion").addEventListener("click", () => {
+            if (!usuarioLogueado()) {
+                alerta_efimera("No hay usuario logueado", "info");
+                return;
+            }
+            localStorage.removeItem("usuario");
+            document.getElementById("btnInicioSesion").innerHTML = "Iniciar Sesion";
+            document.getElementById("btnInicioSesion").classList.remove("bg-green-500");
+            document.getElementById("btnInicioSesion").classList.add("bg-blue-500");
+            document.getElementById("btnInicioSesion").disabled = false;
+            document.getElementById("btnRegistro").disabled = false;
+            alerta_sesion("Sesion cerrada", "success");
+        });
     });
-
-
-export function usuarioLogueado() {
-    return localStorage.getItem("usuario") !== null;
-  }
+    export function usuarioLogueado() {
+        return localStorage.getItem("usuario") !== null;
+      }

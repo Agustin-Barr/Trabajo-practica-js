@@ -1,10 +1,9 @@
-import { alerta_agregado,alerta_eliminado } from "./helper/utils.js";
+import { alerta_efimera,alerta_eliminado,alerta_general } from "./helper/utils.js";
 import { usuarioLogueado } from "./auth/iniciosesion.js";
 //Limpiar carrito de compras  al refrescar la pagina 
 document.addEventListener("DOMContentLoaded", () => {
    localStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
    actualizar_carrito();//actualizo el carrito de compras al cargar la pagina
-   
 });
 const btnLacteos = document.getElementById("btnLacteos");//boton de lacteos
 const btnAlmacen = document.getElementById("btnAlmacen");//boton de almacen         
@@ -12,19 +11,19 @@ const btnVerduleria = document.getElementById("btnVerduleria");//boton de verdul
 const btnTodos = document.getElementById("btnTodos");//boton de todos los productos
 const btnCarrito = document.getElementById("btnCarrito");//boton de carrito
 btnLacteos.addEventListener("click", () => {
-    separar_por_categoria("Lacteos");//llamo a la funcion que me muestra los productos de la categoria Lacteos
+    separar_por_categoria("Lacteos");
 });
 btnAlmacen.addEventListener("click", () => {
-    separar_por_categoria("Almacen");//llamo a la funcion que me muestra los productos de la categoria Almacen
+    separar_por_categoria("Almacen");
 });
 btnVerduleria.addEventListener("click", () => {
-    separar_por_categoria("Verduleria");//llamo a la funcion que me muestra los productos de la categoria Verduleria
+    separar_por_categoria("Verduleria");
 });
 btnTodos.addEventListener("click", () => {
-    mostrar_productos(Mercaderia);//llamo a la funcion que me muestra todos los productos 
+    mostrar_productos(Mercaderia);
 });  
 btnCarrito.addEventListener("click", () => {
-    mostrar_carrito();//llamo a la funcion que me muestra los productos del carrito de compras
+    mostrar_carrito();
 });
 //Funcion para separar los productos por categoria 
 function filtrado_categoria(categoria = ""){
@@ -55,14 +54,12 @@ async function vaciar_carrito() {
         }   
     mostrar_carrito();
     document.head.scrollIntoView({ behavior: "smooth", block: "start" });
-    actualizar_carrito();
-       
-    
+    actualizar_carrito();    
 }
 //funcion que me imprime la lista de productos disponibles 
 function mostrar_productos(Mercaderia=[]) {
     if (!usuarioLogueado()) {//si el usuario no esta logueado le muestro un mensaje de error
-        alert("Debes iniciar sesion para comenzar a comprar");//si no hay producto valido muestro un mensaje de error
+        alerta_general("Error","Debes iniciar sesion para ver el catalogo de productos","error");
         return;
     }
     const contenedor = document.getElementById("contenedor");
@@ -86,7 +83,6 @@ function mostrar_productos(Mercaderia=[]) {
         </ul> 
         </div>
         `;
-        
         //agregar evento del boton agregar al carrito
         const boton_agregar = document.querySelectorAll(".agregar_al_carrito");
         boton_agregar.forEach((boton) => {
@@ -102,12 +98,11 @@ function mostrar_productos(Mercaderia=[]) {
             }            
         });
     });
-    
 }
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
 function agregar_al_carrito(producto ) {
     if (!usuarioLogueado()) {//si el usuario no esta logueado le muestro un mensaje de error
-        alert("Debes iniciar sesion para agregar productos al carrito de compras");//si no hay producto valido muestro un mensaje de error
+        alerta_general("Error","Debes iniciar sesion para agregar productos al carrito de compras","error");
         return;
     }
     if (!producto ||!producto.nombre){
@@ -117,7 +112,7 @@ function agregar_al_carrito(producto ) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
     carrito.push(producto);//agrego el producto al carrito
    localStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el local storage
-    alerta_agregado();//muestra un mensaje de exito al agregar el producto al carrito   
+    alerta_efimera("Producto agregado al carrito","success");//muestra un mensaje de exito al agregar el producto al carrito   
     actualizar_carrito();
 }
 //funcion que me muestra los productos del carrito con su valor total a pagar
@@ -156,8 +151,7 @@ function mostrar_carrito() {
         });};
 function actualizar_carrito() {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    btnCarrito.textContent = `Ver carrito (${carrito.length})`;}
-        
+    btnCarrito.textContent = `Ver carrito (${carrito.length})`;}   
 class crear_mercaderia{
         constructor(nombre="",precio=0,categoria="" ){
             this.nombre = nombre;
