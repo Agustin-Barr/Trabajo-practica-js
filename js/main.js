@@ -1,6 +1,7 @@
 import { alerta_efimera,alerta_eliminado,alerta_general } from "./helper/utils.js";
 import { usuarioLogueado } from "./auth/iniciosesion.js";
 import "./auth/registro.js";
+import { Mercaderia } from "./data/mercaderia.js"; ;
 //Limpiar carrito de compras  al refrescar la pagina 
 document.addEventListener("DOMContentLoaded", () => {
    localStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
@@ -152,27 +153,7 @@ function mostrar_carrito() {
         });};
 function actualizar_carrito() {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    btnCarrito.textContent = `Ver carrito (${carrito.length})`;}   
-class crear_mercaderia{
-        constructor(nombre="",precio=0,categoria="" ){
-            this.nombre = nombre;
-            this.precio=precio;
-            this.categoria=categoria;
-    
-        }
-    } 
-///Datos
-const Mercaderia = [
-        new crear_mercaderia("Leche Serenisima", 100, "Lacteos"),
-        new crear_mercaderia("Pan Bimbo", 50, "Almacen"),
-        new crear_mercaderia("Oreo", 500, "Almacen"),
-        new crear_mercaderia("Tomate", 200, "Verduleria"),
-        new crear_mercaderia("Manzana", 150, "Verduleria"),
-        new crear_mercaderia("Cafe Bonafide", 80, "Almacen"),
-        new crear_mercaderia("Jugo Citric", 120, "Almacen"),
-        new crear_mercaderia("Coca Cola", 130, "Almacen"),
-        new crear_mercaderia("Servilleta ", 150, "Almacen"),        
-    ];
+    btnCarrito.textContent = `Ver carrito (${carrito.length})`;}    
     localStorage.setItem("productos", JSON.stringify(Mercaderia));
     //cosas  que agregar al proyecto
     // eliminar productos del carrito de compras de a uno
