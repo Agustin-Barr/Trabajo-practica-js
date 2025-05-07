@@ -1,8 +1,7 @@
 import { alerta_efimera,alerta_eliminado,alerta_general } from "./helper/utils.js";
 import { usuarioLogueado } from "./auth/iniciosesion.js";
 import "./auth/registro.js";
-import { Mercaderia } from "./data/mercaderia.js"; ;
-//Limpiar carrito de compras  al refrescar la pagina 
+import { Mercaderia } from "./data/mercaderia.js"; 
 document.addEventListener("DOMContentLoaded", () => {
    localStorage.removeItem("carrito");//limpio el carrito de compras al cargar la pagina
    actualizar_carrito();//actualizo el carrito de compras al cargar la pagina
@@ -50,7 +49,7 @@ function separar_por_categoria(categoria = ""){
                 }   
 //funcion que vacia el carrito de compras con mercaderia 
 async function vaciar_carrito() {
-    const espera_confirmacion= await alerta_eliminado();//llamo a la funcion que me muestra el mensaje de confirmacion
+    const espera_confirmacion= await alerta_eliminado();
     if (espera_confirmacion) {//si el usuario confirma que desea eliminar el carrito de compras
         localStorage.removeItem("carrito");//elimino el carrito de compras del local storage 
         }   
@@ -91,7 +90,6 @@ function mostrar_productos(Mercaderia=[]) {
             boton.addEventListener("click", () => {
                 const index= parseInt(boton.dataset.index);//obtengo el index del boton que se presiono
                 const producto = Mercaderia[index];//obtengo el producto correspondiente al boton que se presiono
-                //Antes de agregar al carrito verifico que el producto no sea undefined o null
                 if (producto && producto.nombre) {
                     agregar_al_carrito(producto);//agrego el producto al carrito
                 }
@@ -103,7 +101,7 @@ function mostrar_productos(Mercaderia=[]) {
 }
 // Funcion que me llena el carrito de la compra y me retorna el total de mercaderia cargada
 function agregar_al_carrito(producto ) {
-    if (!usuarioLogueado()) {//si el usuario no esta logueado le muestro un mensaje de error
+    if (!usuarioLogueado()) {
         alerta_general("Error","Debes iniciar sesion para agregar productos al carrito de compras","error");
         return;
     }
@@ -112,9 +110,9 @@ function agregar_al_carrito(producto ) {
         return;     
     }
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];//si no existe el carrito lo inicializo como un array vacio
-    carrito.push(producto);//agrego el producto al carrito
+    carrito.push(producto);
    localStorage.setItem("carrito", JSON.stringify(carrito));//guardo el carrito en el local storage
-    alerta_efimera("Producto agregado al carrito","success");//muestra un mensaje de exito al agregar el producto al carrito   
+    alerta_efimera("Producto agregado al carrito","success");
     actualizar_carrito();
 }
 //funcion que me muestra los productos del carrito con su valor total a pagar
@@ -152,10 +150,22 @@ function mostrar_carrito() {
             vaciar_carrito();//llamo a la funcion que me vacia el carrito de compras
         });};
 function actualizar_carrito() {
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    btnCarrito.textContent = `Ver carrito (${carrito.length})`;}    
-    localStorage.setItem("productos", JSON.stringify(Mercaderia));
+    try {
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        btnCarrito.textContent = `Ver carrito (${carrito.length})`;
+      } catch (error) {
+        console.error("Error al actualizar el carrito:", error.message);
+        btnCarrito.textContent = "Ver carrito (0)";
+      }
+    }
+    try {
+      localStorage.setItem("productos", JSON.stringify(Mercaderia));
+    } catch (error) {
+      console.error("Error al guardar productos en localStorage:", error.message);
+    }
     //cosas  que agregar al proyecto
     // eliminar productos del carrito de compras de a uno
     // contabilizar los productos  repetidos dentro del carrito de compras
     // pasar los productos a un json y cargarlo desde el json
+
+    //FECTH-TRY-CATHC
