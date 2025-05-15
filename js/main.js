@@ -163,9 +163,3 @@ function actualizar_carrito() {
     } catch (error) {
       console.error("Error al guardar productos en localStorage:", error.message);
     }
-    //cosas  que agregar al proyecto
-    // eliminar productos del carrito de compras de a uno
-    // contabilizar los productos  repetidos dentro del carrito de compras
-    // pasar los productos a un json y cargarlo desde el json
-
-    //FECTH
