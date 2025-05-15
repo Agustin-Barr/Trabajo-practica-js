@@ -168,4 +168,4 @@ function actualizar_carrito() {
     // contabilizar los productos  repetidos dentro del carrito de compras
     // pasar los productos a un json y cargarlo desde el json
 
-    //FECTH-TRY-CATHC
+    //FECTH
